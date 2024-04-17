@@ -11,12 +11,16 @@ export type UserType = {
 export type TaskType = {
     id:number,
     title:string,
-    body:string,
+    description:string,
     dateCreated:string,
-    author:UserType
+    dueDate: string,
+    author:UserType,
+    completed: boolean,
+    toggleCompletion: () => void,
 }
 
 export type TaskFormDataType = {
     title:string,
-    body:string
+    description:string,
+    dueDate: string
 }

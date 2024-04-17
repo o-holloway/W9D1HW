@@ -5,3 +5,15 @@ body {
 .bg-custom {
     background-color: #006600;
 }
+
+.completed {
+    background-color: grey;
+    color: black;
+    text-decoration: line-through;
+}
+
+.uncompleted {
+    background-color: #ffffff;
+    color: black;
+    text-decoration: none;
+}

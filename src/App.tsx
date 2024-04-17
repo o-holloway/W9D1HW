@@ -9,13 +9,14 @@ import SignUp from './views/SignUp';
 
 export default function App(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
 
     const handleClick = () => {
         setIsLoggedIn(!isLoggedIn);
     }
 
     return (
-        <>
+        <div>
             <Navigation isLoggedIn={isLoggedIn}/>
             <Container>
                 <Routes>
@@ -23,6 +24,6 @@ export default function App(){
                     <Route path='/signup' element={<SignUp /> } />
                 </Routes>
             </Container>
-        </>
+        </div>
     )
 }

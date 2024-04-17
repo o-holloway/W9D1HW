@@ -4,6 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 type NavigationProps = {
     isLoggedIn: boolean
@@ -33,7 +35,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps){
                         )}
                     </Nav>
                     <Nav>
-                        <Button onClick={() => setBackgroundTheme(backgroundTheme === 'dark' ? 'light' : 'dark')}>Toogle Dark Mode</Button>
+                        <Button onClick={() => setBackgroundTheme(backgroundTheme === 'dark' ? 'light' : 'dark')}><FontAwesomeIcon icon={'dark' ? faSun : faMoon} /></Button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

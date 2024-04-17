@@ -23,38 +23,44 @@ type HomeProps = {
 
 export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
-    const [showForm, setShowForm] = useState(false);
     const [tasks, setTasks] = useState<TaskType[]>([
-            {
-                author: {
-                    dateCreated: "Wed, 29 May 2023 10:19:32 GMT",
-                    email: "john@doe.com",
-                    firstName: "John",
-                    id: 1,
-                    lastName: "Doe",
-                    username: "johnd"
-                },
-                body: "Bury electric conduit to shed",
-                dateCreated: "Wed, 29 May 2023 11:13:41 GMT",
+        {
+            author: {
+                dateCreated: "Wed, 29 May 2023 10:19:32 GMT",
+                email: "john@doe.com",
+                firstName: "John",
                 id: 1,
-                title: "Bury electric"
+                lastName: "Doe",
+                username: "johnd"
             },
-            {
-                author: {
-                    dateCreated: "Wed, 29 May 2023 15:28:25 GMT",
-                    email: "jane@doe.com",
-                    firstName: "Jane",
-                    id: 1,
-                    lastName: "Doe",
-                    username: "janed"
-                },
-                body: "Organize spice rack",
-                dateCreated: "Wed, 29 May 2023 16:09:59 GMT",
-                id: 2,
-                title: "Spice Rack"
+            description: "Bury electric conduit to shed",
+            dateCreated: "Wed, 29 May 2023 11:13:41 GMT",
+            dueDate: "Wed, 29 June 2023 11:13:41 GMT",
+            id: 1,
+            title: "Bury electric",
+            completed: false,
+            toggleCompletion: () => {}
+        },
+        {
+            author: {
+                dateCreated: "Wed, 29 May 2023 15:28:25 GMT",
+                email: "jane@doe.com",
+                firstName: "Jane",
+                id: 1,
+                lastName: "Doe",
+                username: "janed"
             },
-        ])
+            description: "Organize spice rack",
+            dateCreated: "Wed, 29 May 2023 16:09:59 GMT",
+            dueDate: "Wed, 29 June 2023 16:09:59 GMT",
+            id: 2,
+            title: "Spice Rack",
+            completed: false, 
+            toggleCompletion: () => {}
+        },
+    ]);
 
+    const [showForm, setShowForm] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,13 +82,19 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
     const addNewTask = (newTaskData: TaskFormDataType) => {
         const author = {id: 1, firstName: 'John', lastName: 'Doe', email: 'john@doe.com', username:'johnd', dateCreated: "Wed, 14 May 2023 09:41:32 GMT"};
-        const newTask: TaskType = {...newTaskData, id:tasks.length+1, dateCreated:new Date().toString(), author};
+        const newTask: TaskType = {...newTaskData, id:tasks.length+1, dateCreated:new Date().toString(), author, completed: false, toggleCompletion: () => {}};
         setTasks([...tasks, newTask]);
         setShowForm(false);
     }
 
+    const toggleCompletion = (id: number) => {
+        setTasks(prevTasks => prevTasks.map(task => 
+            task.id === id ? { ...task, completed: !task.completed } : task
+        ));
+    }
+
     return (
-        <>
+        <div>
             <h3>To-Do List 1.0 - Productivity Unlocked</h3>
                 <Button variant='primary' onClick={handleClick}>Log-In</Button>
                 <h2>{isLoggedIn ? `Welcome Back` : 'Please Log In or Sign Up'}</h2>
@@ -104,7 +116,9 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
                     </Col>
                 </Row>
                 { showForm && <TaskForm addNewTask={addNewTask} /> }
-                {tasks.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <TaskCard key={p.id} task={p} /> )}
-        </>
-    )
+                {tasks.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => 
+                <TaskCard key={p.id} task={{ ...p, toggleCompletion: () => toggleCompletion(p.id) }} />
+            )}
+        </div>
+    );
 }
